@@ -71,16 +71,19 @@ Some improvements that could be made would be inputting a range selector like fr
 
 
 
-## Project 03
+## Project 03: Recreating Graphics for Tampa Weather
 
 In this project, I explored ... _[short description of your revised project goes here]_
 
-**Sample data visualization:** 
-
-_[include your favorite visualization from this project here]_
+**Maximum Temperatures by Month (counts):** 
 <img src="https://github.com/reisanar/figs/raw/master/jackie_jessie_marion.png" width="80%" height="80%">
 
 
-### Moving Forward
+**Maximum Temperatures by Month Density Ridges:** 
+<img src="https://github.com/reisanar/figs/raw/master/jackie_jessie_marion.png" width="80%" height="80%">
+
+
+## Moving Forward
 
 _add here a short reflection on what you learned and what you plan to continue exploring in terms of data visualization, data storytelling, reproducible research, and/or related topics_
+
