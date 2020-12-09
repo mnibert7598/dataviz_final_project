@@ -39,14 +39,36 @@ Throughout this first project and the learning modules that followed, I was able
 
 ## Project 02: Exploring Atlanta Weather
 
-In this project, I explored ... _[short description of your revised project goes here]_ Find the code and report in the `project_02/` folder.
+In this second mini project, I explored the 2019 Atlanta Weather dataset. This dataset included 39 variables for an entire (365 datapoints) year. Variables ranged from the description of the icon used to depict the weather for a given day to precipitation, humidity, wind speed, temperature and visibility information. 
 
-**Sample data visualization:** 
+While working on this second mini project, I further practiced how to clean data and I learned that to create a good visualization, you had to keep your story simple. This is why I chose the weather data in the first place, I didn't want to let my brain wander too far and (initially) I thought weather wouldn't be too complicated. 
 
-_[include your favorite visualization from this project here]_
-<img src="https://github.com/reisanar/dataviz_final_project/blob/main/figures/fl_higher_ed.png" width="60%" height="60%">
+Find the code and report in the `project_02/` folder.
 
-(you can also place your figures in the `figures/` folder and use the `![](path_to_picture)` option to add the pictures here)
+**First Visualization: High Temperatures in Atlanta** 
+
+First graph I wanted to look at was the high temperatures over the entire year. Here, we can see they shape a nice bell-like curve with the highest of temperatures in the middle of the year during the summer months. 
+
+<img src="https://github.com/mnibert7598/dataviz_final_project/blob/main/figures/birthsbyyear_01.png" width="70%" height="70%">
+
+
+**Second Visualization: Precipitation in Atlanta** 
+
+The next visualization I wanted to produce was a basic histogram plot to look at the precipitation over Atlanta for the year of 2019. 
+
+<img src="https://github.com/mnibert7598/dataviz_final_project/blob/main/figures/birthsbyyear_01.png" width="70%" height="70%">
+
+In this graph, we can see that the month with the highest amount of precipitation is February and the lowest month is September for Atlanta in 2019.
+
+
+**Third Visualization: Precipitation & Temperature in Atlanta** 
+
+Although I made several graphs beforehand depicting this same information, one just for temperature, one for precipitation by month, this last visualization would be the one that I would show to an audience. It contains all of the information I was trying to relay. 
+
+<img src="https://github.com/mnibert7598/dataviz_final_project/blob/main/figures/birthsbyyear_01.png" width="70%" height="70%">
+
+Some improvements that could be made would be inputting a range selector like from dygraphs. This would allow a user more of a tool to get any information they were interested in. It would also add more information to the graph itself because we could then see each individual date. 
+
 
 
 ## Project 03
