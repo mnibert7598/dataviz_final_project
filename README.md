@@ -73,7 +73,8 @@ Some improvements that could be made would be inputting a range selector like fr
 
 ## Project 03: Recreating Graphics for Tampa Weather
 
-In this project, I explored ... _[short description of your revised project goes here]_
+In this mini project I explored recreating multiple types of graphs that could be used to express the same variable to an audience. All different types of graphs than I knew prior to use, much better than what I used in my mini project 2. 
+
 
 **Maximum Temperatures by Month (counts):** 
 <img src="https://github.com/mnibert7598/dataviz_final_project/blob/main/figures/max_temp_month_03.png" width="80%" height="80%">
@@ -82,6 +83,9 @@ In this project, I explored ... _[short description of your revised project goes
 **Maximum Temperatures by Month Density Ridges:** 
 <img src="https://github.com/mnibert7598/dataviz_final_project/blob/main/figures/geom_ridges_03.png" width="80%" height="80%">
 
+This project was helpful as an exercise. I had to learn how to not only create these graphs just from visuals provided, but also how to design them. I decided (creatively) that my first graph is better than the one provided, but that may be just because I'm blind and it's hard to read histograms that small for me so gridlines help. 
+
+This project also showed me that there can be many types of graphs that can represent the same information, here we created 5 different plots to represent maximum temperatures in Tampa, mainly by month. The lesson would be that you shouldn't settle on your first visualization or type of, you should play around with different versions and pick the one that relays to the audience the message you want the best. 
 
 ## Moving Forward
 
