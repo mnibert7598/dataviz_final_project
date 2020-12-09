@@ -25,12 +25,12 @@ Given the shape of the graph as well as the coloring applied we can see that the
 <img src="https://github.com/mnibert7598/dataviz_final_project/blob/main/figures/birthsbyyear_01.png" width="70%" height="70%">
 
 **Second Visualization: Births per Month and Year**
-<br>
+
 Originally, I had created a scatterplot of the number of births for each month of each year over the 15 year period. I had colored the scatterplot so each year had a different color. Overall, you could see the same arch that we see in my first visualization. However, my professor suggested that it was hard to see the color differences in the scatterplot for each year and countered that I provide a lollipop graph instead. My first attempt at a lollipop graph yielded mixed results. I could now definitively see the different years, but the pattern was lost as the stick of each lollipop was so tall and there were so many of them. 
 
 I then adjusted my y axis boundaries and used ggplotly in the plotly library to create an interactive graph, which I think is the best one of the iterations: 
 
-<img src="https://github.com/mnibert7598/dataviz_final_project/blob/main/figures/births_interactive_01.png" width="70%" height="70%">
+<img src="https://github.com/mnibert7598/dataviz_final_project/blob/main/figures/births_interactive_01.PNG" width="70%" height="70%">
 
 In conclusion, from my initial exploratoy graphs to my enhanced graphs, you can see that in this fifteen year period, 2007 had the highest number of births. As well, you can see that August is the month of the year with the most births overall, which in turn tells us that December, October, November and January are the months with the highest  number of conceptions. 
 
