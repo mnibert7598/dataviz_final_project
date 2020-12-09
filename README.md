@@ -91,3 +91,9 @@ This project also showed me that there can be many types of graphs that can repr
 
 _add here a short reflection on what you learned and what you plan to continue exploring in terms of data visualization, data storytelling, reproducible research, and/or related topics_
 
+This semester I learned a lot of extremely useful things. I'm so glad I took it before I start my Master's project next semester. Top five things learned:
+1. **Decide what you're trying to say.** Ensure your content is tailored to the most essential idea you want your audience to leave with. Use the KISS (Keep it Simple Stupid) method. 
+2. **Choose the Right Chart Type.** This may take multiple tries and different attempts. Don't be afraid to try different things and research new methods. 
+3. **Take advantage of color theory.** Keep color schemes consistent throughout and use clear contrasting, yet complementary, colors to distinguish important elements. 
+4. **Know Your Audience.** Your audience doesn't know anything more about the data other than what you're presenting to them. It should be fitted to their understanding and same as when you are deciding on your story.... KISS.
+5. **Resources. Resources. Endless Resources.** There are SO many resources out there for data visualization techniques. Keep up to date and learn new things often. Don't be afraid to seek out opinions on your first run, second run, n run... room for improvement doesn't mean failure. 
