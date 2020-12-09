@@ -1,0 +1,233 @@
+---
+title: "Exploring Atlanta Weather"
+author: "Morgan Nibert"
+subtitle: _2019_
+output:
+  html_document:
+    df_print: paged
+---
+
+***
+### First Observations
+
+For my second mini project, I have chosen to work with the 2019 Atlanta Weather dataset. 
+
+```{r, message=FALSE, echo=FALSE, warning=FALSE}
+library(tidyverse)
+library(lubridate)
+library(ggplot2)
+library(plotly)
+library(hms)
+library(chron)
+library(sf)
+library(dygraphs)
+library(xts)
+library(patchwork)
+
+weather_data <- read_csv("C:/Users/nimo7001/Documents/School/Data Exploration/MNibert_Mini_Project_2/data/atl-weather.csv")
+```
+
+First I must take initial view of the dataset to see what type of information it contains and how clean (or unclean) it  is. As I know this is data for an entire year, I will take a look at the entire dataset and see if I'm missing any dates. 
+
+```{r, echo = FALSE}
+weather_data
+```
+
+Initial formatting of the data looks like it has a date and timestamp for each date (as we can see we have 365 entries) and the weather was taken at the same time each day, 5:00 AM. 
+
+Next, we can see that we have 39 variables for each date. These variables include a short text summary for each day, the description of the icon used for the weather that day (sunny, cloudy, partly cloudy, rainy, etc), the time of the sunrise and sunset, precipitation information, humidity, pressure, wind speed, wind gust information, cloud cover, visibility, and information about the high and low temperatures of the day. 
+
+I can also see a lot of missing data from some of these variables, this makes sense because not each day in a year will have precipitation and such.  
+
+It's a lot of information, so I first want to decide what kind of story I want to tell with it, then I will cut down the overall dataset into a smaller subset of the data to create my visualizations from. To decide what type of stories I want to tell, I will attempt to summarize the data on the variables that most interest me. 
+
+
+
+***
+### Summarizing the Data
+
+After initially looking at the data and seeing the plethora of variables we have available to us, I'm going to start cutting down to just the ones that I may possibly be interested in. 
+
+Below we will see the first subsetted dataset with only 11 variables:
+
+```{r, echo=FALSE}
+weather_1 <- weather_data %>% 
+  select(time, summary, icon, sunriseTime, sunsetTime, 
+         temperatureHigh, temperatureLow, humidity, 
+         windSpeed, cloudCover, precipProbability)
+
+weather_1
+```
+
+* __time__ : date of measurement
+* __summary__ : short summary of the weather on date of measurement
+* __icon__ : description of the icon used for the weather that day
+* __sunriseTime__ : time of sunrise
+* __sunsetTime__ : time of sunset
+* __temperatureHigh__ : high temperature for the day
+* __temperatureLow__ : low temperature for the day
+* __humidity__ : concentration of water vapor present in the air
+* __windSpeed__ : time averaged wind speed
+* __cloudCover__ : the fraction of the sky obscured by clouds
+* __precipProbability__ : the probability of precipitation on the date of measurement
+
+
+Next, I will create some new variables that will make creating visualizations easier. 
+I will create a month variable so I can easily group months together, I will also separate the date from the time variable and the times from the sunrise and sunset variables as the date is not truly necessary in those values. I will also rearrange my variables to make more sense and remove the icon and summary variables. 
+
+```{r, echo = FALSE}
+weather_2 <- weather_1 %>% 
+  mutate(month = month(time, label = TRUE, abbr = FALSE)) %>% 
+  mutate(date = as.Date(time)) %>% 
+  mutate(sunrise = as_hms(sunriseTime)) %>% 
+  mutate(sunset = as_hms(sunsetTime)) %>% 
+  rename(low = temperatureLow) %>% 
+  rename(high = temperatureHigh) %>% 
+  rename(precip = precipProbability) %>% 
+  select(month, date, sunrise, sunset, low, high, humidity, windSpeed, cloudCover, precip)
+
+weather_2
+```
+
+Now let's get some basic summary data by month.
+
+```{r, echo = FALSE}
+weather_3 <- weather_2 %>% 
+  group_by(month) %>% 
+  summarize(low_temp = mean(low), 
+            high_temp = mean(high), 
+            sunrise = mean(times(sunrise)), 
+            sunset = mean(times(sunset)), 
+            humidity = mean(humidity), 
+            wind_speed = mean(windSpeed), 
+            cloud_cover = mean(cloudCover),
+            precip = mean(precip))
+
+weather_3
+```
+
+As expected, we can see the low temperatures (even the highs) start in January and increase as the year goes on until in September we see them decrease again. We can also see that the time of the sunrise times vary slightly from January to March when Daylight Savings time is and then they start to drop until around July. While sunsets get later as the year goes on and then start getting earlier in September until the end of the year. 
+
+Some other things to note are the humidity looks like it was highestt in June, wind speed was fastest in March, and there was the least amount of cloud cover in September of 2019 in Atlanta. 
+
+
+***
+#### High Temperature Plot
+
+First graph I wanted to look at was the high temperatures over the entire year. Here, we can see they shape a nice bell-like curve with the highest of temperatures in the middle of the year during the summer months. 
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+temps_plot <- ggplot(weather_2) +
+  geom_point(aes(x = date, y = high ,color = high)) +
+  scale_color_gradient(low = "yellow", high = "red") +
+  labs(x="", y = "") +
+  theme(panel.background = element_blank(),
+        legend.position = "none", 
+        text=element_text(size=10))
+
+ggplotly(temps_plot)
+```
+
+
+
+***
+#### Georgia County Temperatures
+For my Spatial Visualization, I would like to look at the average annual temperatures for the counties within Georgia, with Atlanta acting as Fulton County 
+
+```{r, echo = FALSE, message=FALSE, warning = FALSE}
+ga_shape <- st_read("C:/Users/nimo7001/Documents/School/Data Exploration/MNibert_Mini_Project_2/data/cb_2018_13_bg_500k.shp")
+```
+
+```{r}
+ggplot() +
+  geom_sf(data =ga_shape)
+```
+
+
+***
+#### Basic Precipitation Plot:
+The next visualization I wanted to look into creating was a histogram plot for the precipitation over the year of 2019 for Atlanta. 
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+precip_plot <- ggplot(weather_3, aes(x = month, y = precip)) +
+  geom_bar(stat = "identity", fill="#69b3a2") +
+  labs(x="", y = "") +
+  theme(panel.background = element_blank(),
+        legend.position = "none", 
+        text=element_text(size=10))
+
+ggplotly(precip_plot)
+```
+
+In this graph, we can see that the month with the highest amount of precipitation is February and the lowest month is September for Atlanta in 2019. 
+
+
+<br><br>
+
+#### More Interactive Precipitation Plot
+Although the basic Precipitation Plot above is nice to see an overview of what the precipitation was by month in Atlanta, what if we wanted to get more granular and look at a certain timeframe? We have the data for an entire year, why don't we use it!
+
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+dygraph_data <- weather_2 %>% 
+  select(date, precip)
+
+dygraph_precip <- xts(x = dygraph_data$precip, order.by = dygraph_data$date)
+```
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+dygraph(dygraph_precip, 
+        main = "Precipitation in Atlanta (2019)") %>%
+  dyRangeSelector(height = 25)
+```
+
+Now we can select a certain date range to see what the precipitation probability was at that time. 
+
+
+***
+#### Precipitation & Temperature
+Now that I've looked at precipitation and the temperature for Atlanta separately, I think I'd like to try putting these two plots together for one overall graphic.
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+temp_plot <- ggplot(weather_2,
+                    aes(x = date, y = high)) +
+             geom_line(color="#69b3a2") +
+             geom_smooth() + 
+             labs(x = NULL, y = "Fahrenheit") +
+             theme(panel.background = element_blank(),
+                   legend.position = "none", 
+                   text=element_text(size=10)) 
+ 
+precip_plot <- ggplot(weather_2,
+                    aes(x = date, y = precip)) +
+             geom_line(color="#69b3a2") +
+             geom_smooth() + 
+             labs(x = NULL, y = "Precipitation") +
+  theme(panel.background = element_blank(),
+        legend.position = "none", 
+        text=element_text(size=10))
+
+
+temp_plot + 
+  precip_plot +
+  plot_layout(ncol = 1,
+              heights = c(0.6, 0.4))
+
+```
+
+
+***
+### Conclusions
+Although I made several graphs beforehand depicting this same information, one just for temperature, one for precipitation by month, one where you can select precipitation for a date range of the entire dataset... this last visualization would be the one that I would show to an audience. It contains all of the information I was trying to relay. 
+
+Some improvements that could be made would be being able to use the range selector from the dygraphs on the Temperature and Precipitation graph I made last. This would allow a user more of a tool to get any information they were interested in. It would also add more information to the graph itself because we could then see each individual date. 
+
+
+
+***
+### Further Notes
+I struggled a lot with the spatial visualization. It took me a long time to even figure out how to get the map of Georgia to show up in R. Also, it didn't really make sense to use a spatial visualization with this dataset as it's for one location, not multiple. 
+
+Another note, I wanted to make all of my text smaller and less visual, as well as keep no grid lines and a neutral-pretty teal-blue as my main indicator color. However, in the High Temperature plot I could not resist from using the yellow to red gradient as it made more sense with raising temperatures. 
+
+<br><br><br>
