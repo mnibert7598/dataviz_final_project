@@ -17,8 +17,7 @@ Below we have my first created visualization that shows us the number of births 
 
 Given the shape of the graph as well as the coloring applied we can see that there is a spike in births in 2007 followed by a lower number of births in the latter half of the dataset. 
 
-_[include your favorite visualization from this project here]_
-<img src="https://github.com/reisanar/figs/raw/master/echarts.png" width="70%" height="70%">
+<img src="https://github.com/mnibert7598/dataviz_final_project/blob/main/figures/birthsbyyear_01.png" width="70%" height="70%">
 
 **Second Visualization: Births per Month and Year**
 Originally, I had created a scatterplot of the number of births for each month of each year over the 15 year period. I had colored the scatterplot so each year had a different color. Overall, you could see the same arch that we see in my first visualization. However, my professor suggested that it was hard to see the color differences in the scatterplot for each year and countered that I provide a lollipop graph instead. My first attempt at a lollipop graph yielded mixed results. I could now definitively see the different years, but the pattern was lost as the stick of each lollipop was so tall and there were so many of them. 
