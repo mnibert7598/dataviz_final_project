@@ -1,0 +1,109 @@
+---
+title: "Visualizing Text and Distributions"
+output: 
+  html_document:
+    keep_md: true
+    toc: true
+    toc_float: true
+---
+
+# Data Visualization Project 03
+
+## Part 1: Density Plots
+
+Using the dataset obtained from FSU's [Florida Climate Center](https://climatecenter.fsu.edu/climate-data-access-tools/downloadable-data), for a station at Tampa International Airport (TPA) from 2016 to 2017, attempt to recreate the charts shown below
+
+```{r, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(lubridate)
+library(ggridges)
+
+weather_tpa <- read_csv("https://github.com/reisanar/datasets/raw/master/tpa_weather_16_17.csv")
+
+weather_tpa <- weather_tpa %>% 
+  mutate(data_date = make_date(year, month, day)) %>% 
+  mutate(data_month = month(data_date, label = TRUE, abbr = FALSE))
+
+weather_tpa
+```
+
+### Plot 1
+
+There is some different design choices in mine versus the one in the project outline. I like the gridlines here more because with each month on it's own graph, it makes it easier for me to view. The gray background also makes it look more modern in my eyes. 
+```{r}
+ggplot(weather_tpa, 
+       aes(x = max_temp,
+           fill = data_month)) +
+  geom_histogram(binwidth = 3) +
+  guides(fill = FALSE) +
+  facet_wrap(~ data_month) +
+  labs(x = "Maximum Temperatures", y = "Number of Days")
+```
+
+
+But if I were to go for complete copy:
+
+```{r}
+ggplot(weather_tpa, 
+       aes(x = max_temp,
+           fill = data_month)) +
+  geom_histogram(binwidth = 3) +
+  guides(fill = FALSE) +
+  facet_wrap(~ data_month) +
+  theme_bw() +
+  theme(panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        panel.background = element_blank()) +
+  labs(x = "Maximum Temperatures", y = "Number of Days")
+```
+
+
+### Plot 2
+```{r}
+ggplot(weather_tpa, 
+       aes(x = max_temp)) +
+  geom_density(bw = 0.5, color = "black", fill = "grey") +
+  scale_fill_grey() +
+  theme(panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        panel.background = element_blank()) +
+  labs(x = "Maximum Temperature", y = "Density")
+```
+
+
+### Plot 3
+```{r}
+ggplot(weather_tpa, 
+       aes(x = max_temp,
+           fill = data_month)) +
+  geom_density() +
+  guides(fill = FALSE) +
+  facet_wrap(~ data_month) +
+  theme_bw() +
+  theme(panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank()) +
+  labs(x = "Maximum Temperatures", y = "")
+```
+
+
+### Plot 4
+```{r}
+ggplot(weather_tpa, aes(x = max_temp, y = data_month,
+                               fill = data_month)) +
+  geom_density_ridges(scale = 2, quantile_lines = TRUE, quantiles=2) +
+  guides(fill = FALSE) +
+  labs(x = "Maximum Temperature", y = NULL) +
+  theme_minimal()
+```
+
+
+### Plot 5
+```{r}
+ggplot(weather_tpa, aes(x = max_temp, y = data_month,
+                               fill = ..x..)) +
+  geom_density_ridges_gradient(quantile_lines = TRUE, quantiles=2) +
+  scale_fill_viridis_c(option = "plasma", name ="") +
+  labs(x = "Maximum Temperature (in degrees Fahrenheit)", y = NULL) +
+  theme_minimal()
+```
+
