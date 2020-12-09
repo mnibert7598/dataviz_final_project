@@ -49,14 +49,14 @@ Find the code and report in the `project_02/` folder.
 
 First graph I wanted to look at was the high temperatures over the entire year. Here, we can see they shape a nice bell-like curve with the highest of temperatures in the middle of the year during the summer months. 
 
-<img src="https://github.com/mnibert7598/dataviz_final_project/blob/main/figures/birthsbyyear_01.png" width="70%" height="70%">
+<img src="https://github.com/mnibert7598/dataviz_final_project/blob/main/figures/high_temp_02.PNG" width="70%" height="70%">
 
 
 **Second Visualization: Precipitation in Atlanta** 
 
 The next visualization I wanted to produce was a basic histogram plot to look at the precipitation over Atlanta for the year of 2019. 
 
-<img src="https://github.com/mnibert7598/dataviz_final_project/blob/main/figures/birthsbyyear_01.png" width="70%" height="70%">
+<img src="https://github.com/mnibert7598/dataviz_final_project/blob/main/figures/precip_02.PNG" width="70%" height="70%">
 
 In this graph, we can see that the month with the highest amount of precipitation is February and the lowest month is September for Atlanta in 2019.
 
@@ -65,7 +65,7 @@ In this graph, we can see that the month with the highest amount of precipitatio
 
 Although I made several graphs beforehand depicting this same information, one just for temperature, one for precipitation by month, this last visualization would be the one that I would show to an audience. It contains all of the information I was trying to relay. 
 
-<img src="https://github.com/mnibert7598/dataviz_final_project/blob/main/figures/birthsbyyear_01.png" width="70%" height="70%">
+<img src="https://github.com/mnibert7598/dataviz_final_project/blob/main/figures/precip_heat_02.png" width="70%" height="70%">
 
 Some improvements that could be made would be inputting a range selector like from dygraphs. This would allow a user more of a tool to get any information they were interested in. It would also add more information to the graph itself because we could then see each individual date. 
 
