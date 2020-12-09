@@ -89,8 +89,6 @@ This project also showed me that there can be many types of graphs that can repr
 
 ## Moving Forward
 
-_add here a short reflection on what you learned and what you plan to continue exploring in terms of data visualization, data storytelling, reproducible research, and/or related topics_
-
 This semester I learned a lot of extremely useful things. I'm so glad I took it before I start my Master's project next semester. Top five things learned:
 1. **Decide what you're trying to say.** Ensure your content is tailored to the most essential idea you want your audience to leave with. Use the KISS (Keep it Simple Stupid) method. 
 2. **Choose the Right Chart Type.** This may take multiple tries and different attempts. Don't be afraid to try different things and research new methods. 
