@@ -5,12 +5,12 @@
 Learn more about me from my [profile](https://github.com/mnibert7598)
 
 
-The following is a sample of products created during the _"Data Visualization and Reproducible Research"_ course in Fall 2020.
+The following is a sample of visualizations I created from the three projects I worked on during my semester in the _"Data Visualization and Reproducible Research"_ course offered at Florida Polytechnic University in Fall 2020.
 
 
-## Project 01
+## Project 01: Exploring US Births
 
-In the `project_01/` folder you can find... _[short description of your revised project goes here]_
+In the `project_01/` folder you can find 
 
 **Sample data visualization:** 
 
@@ -20,7 +20,7 @@ _[include your favorite visualization from this project here]_
 
 
 
-## Project 02
+## Project 02: Exploring Atlanta Weather
 
 In this project, I explored ... _[short description of your revised project goes here]_ Find the code and report in the `project_02/` folder.
 
