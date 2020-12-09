@@ -9,8 +9,12 @@ The following is a sample of visualizations I created from the three projects I 
 
 
 ## Project 01: Exploring US Births
+
 <br>
+
 In the `project_01/` folder you can find my full report exploring U.S. Births from 2000 to 2014. While working on this particular mini project, I practiced how to clean data that included dates and times on top of how to create meaningful and visually appealing graphs that represent the story of the data. 
+
+<br>
 
 **First Visualization: Births per Year** 
 
@@ -26,8 +30,7 @@ Originally, I had created a scatterplot of the number of births for each month o
 
 I then adjusted my y axis boundaries and used ggplotly in the plotly library to create an interactive graph, which I think is the best one of the iterations: 
 
-_[include your favorite visualization from this project here]_
-<img src="https://github.com/reisanar/figs/raw/master/echarts.png" width="70%" height="70%">
+<img src="https://github.com/mnibert7598/dataviz_final_project/blob/main/figures/births_interactive_01.png" width="70%" height="70%">
 
 In conclusion, from my initial exploratoy graphs to my enhanced graphs, you can see that in this fifteen year period, 2007 had the highest number of births. As well, you can see that August is the month of the year with the most births overall, which in turn tells us that December, October, November and January are the months with the highest  number of conceptions. 
 
