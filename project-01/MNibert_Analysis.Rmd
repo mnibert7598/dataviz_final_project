@@ -1,0 +1,333 @@
+---
+title: "Exploring US Births"
+author: "Morgan Nibert"
+subtitle: _2000 - 2014_
+output:
+  html_document:
+    df_print: paged
+  pdf_document: default
+---
+
+***
+### First Observations of Chosen Dataset
+For my first project, I have chosen to work with the U.S. Births from 2000 to 2014 dataset. 
+
+```{r, message=FALSE, echo=FALSE}
+library(tidyverse)
+library(tidyr)
+library(lubridate)
+library(scales)
+library(ggplot2)
+library(plotly)
+
+births_data <- read_csv("C:/Users/nimo7001/Documents/School/Data Exploration/MNibert_Mini_Project_1/data/us_births_00_14.csv")
+```
+
+
+First, I need to take a look at what my dataset actually contains. To do so, I'll look at the first couple of entries in my dataset as well as, since I know this data is over time, the last couple of entries in my dataset. 
+
+This is the first couple of rows:
+```{r, echo = FALSE}
+head(births_data, 5)
+```
+
+
+
+This is the last couple of rows: 
+```{r, echo = FALSE}
+tail(births_data, 5)
+```
+
+
+Upon initial inspection of the data I can see that we have six variables:
+year, month, date_of_month, date, day_of_week and births. 
+
+It's pretty straightforward, the main measurement is just the number of births per day from the year of 2000 to 2014 with each entry in ascending order by date from January 1, 2000 to December 31, 2014. 
+
+
+
+***
+#### Cleaning the Data
+Our data looks relatively clean already.  
+
+The only two things I would suggest doing are verifying that there are not missing values that need to be removed and then convert the number of the month to the name of the month.
+
+To do this, I would use mutate within the *dplyr* package in R to obtain the non-abbreviated month of each entry in the dataset. I would then remove any missing values by using na.omit function from the *stats* package.
+```{r, echo = FALSE, results=FALSE}
+# Remove any missing data entries
+births_df <- births_data %>% 
+  as.data.frame() %>% 
+  mutate(month=month(ymd(births_data$date), label = TRUE, abbr = FALSE))
+
+head(births_df)
+nrow(births_df)
+```
+
+```{r, echo = FALSE}
+births_df <- births_df %>% 
+  na.omit()
+
+nrow(births_df)
+```
+
+After verifying that the number of rows prior to removing any missing values equals the number after removing missing values, I can say that there are 5479 entries in this dataset. 
+
+This is the correct number of days for the 14 years that are included in the dataset, which means that we have the number of births for each day, not missing any days, from 2000 to 2014. 
+
+
+
+***
+### Summarizing the Data
+
+After initial observations are complete, I want to start thinking about what kind of information my data is 
+telling me. 
+
+
+***
+#### Births by Year
+
+My first instinct is to take a look at the number of births over time by year. To do this, I need to use group_by and summarize functions from the *dplyr* package to tally up the total number of births for each year in our dataset. 
+
+This leaves us with a dataset of 15 rows with the total number of births for each year between 2000 to 2014:
+```{r, echo=FALSE}
+births_year <- births_df %>% 
+  group_by(year) %>% 
+  summarize(num_births=sum(births))
+
+births_year
+```
+
+
+Displaying this same information graphically really quickly: 
+```{r, echo=FALSE}
+ggplot(births_year, aes(x = year, y = num_births)) +
+  geom_col()
+```
+
+From first glance, you can tell this graph needs a lot of work. To improve this graph,I will remove the axis titles, include each year as a label, as well as adjust the values on the vertical axis to display a more appropriately formatted number for births. I will also add a title for the entire graph so the audience knows what they are looking at. 
+
+
+```{r, echo=FALSE}
+ggplot(births_year, aes(x = year, y = num_births, fill = num_births)) +
+  geom_bar(stat = "identity") +
+  labs(y = "", x = "",
+       title = "Number of Births by Year") + 
+  scale_x_continuous(breaks= c(2000, 2001, 2002, 2003, 2004, 
+                               2005, 2006, 2007, 2008, 2009, 
+                               2010, 2011, 2012, 2013, 2014)) +
+  scale_y_continuous(labels = unit_format(unit = "M", scale = 1e-6)) +
+  theme(legend.position = "none", 
+        panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        panel.background = element_blank())
+```
+
+Given the coloring applied to this graph and the other changes, it is in much better shape than before. It now tells us more clearly what we're looking at, the number of births in millions from 2000 to 2014. 
+
+We can see that there is a spike in 2007 and a lower number of births in the latter half of the dataset, both by the height of the bars as well as the color gradient. 
+
+
+***
+#### Births by Month & Year
+
+Next, to break down even further into our data. I want to take a look at the number of births over time by month and year. This would be an aggregated number of births by month within each year. 
+
+To get this information, I will use the group_by and summarize functions from the *dplyr* package again.
+
+```{r, echo = FALSE}
+births_month_year <- births_df %>% 
+  group_by(year, month) %>% 
+  summarize(num_births=sum(births)) %>% 
+  mutate(graph_date = paste(month, year, sep = " ")) %>% 
+  mutate(graph_year = as.character(year))
+
+births_month_year$graph_date <- factor(births_month_year$graph_date, levels = births_month_year$graph_date)
+
+births_month_year
+```
+
+
+An interesting way to display this data would be as a continuous function of time. That is, by plotting the number of births by each month for each year over the entire 15 year period. In the subset data for these graphs, I included a variable called _graph_date_ that will allow me to do this. I will use _graph_date_ and the base factor function to make sure that  when I plot my data, it will be in the correct monthly order for each year. 
+```{r, echo = FALSE}
+ggplot(births_month_year) + 
+  geom_point(aes(x = graph_date, y = num_births))
+```
+
+For this particular graph, I will remove the display values on the horizontal axis as these will just cause clutter, as well as remove the axis titles and add an overall title to the graph. These would be minimum changes. 
+
+Next, I will update the colors of the datapoints to group them more visually by year. 
+
+Using these changes, this graph might allow us to find any type of trend that is taking place over time.
+```{r, echo = FALSE}
+ggplot(births_month_year, aes(x = graph_date, y = num_births)) + 
+  geom_point(aes(color = births_month_year$graph_year, alpha = 0.3)) +
+  scale_y_continuous(labels = unit_format(unit = "K", scale = 1e-3)) + 
+  labs(x = "", y = "", 
+       title = "Number of Births", 
+       subtitle = "2000 to 2014") +
+  theme(legend.position = "none",
+        axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank(), 
+        panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        panel.background = element_blank())
+```
+
+
+In this graph, we can now see that each color separated here is a year in order from 2000 to 2014. We can see that in the middle there is a peak where the number of births per month is higher than previous and prior years. 
+
+However, maybe it makes more sense to visualize these as a lollipop graph. This would allow me to differentiate more the births per month over the entire dataset. 
+
+```{r, echo = FALSE}
+ggplot(births_month_year, aes(x = graph_date, y = num_births, color = graph_year)) +
+ geom_pointrange(aes(ymin = 290000, ymax = num_births)) +
+ guides(color = FALSE) +
+ scale_y_continuous(labels = unit_format(unit = "K", scale = 1e-3)) + 
+  labs(x = "", y = "", 
+       title = "Number of Births", 
+       subtitle = "2000 to 2014") +
+  theme(legend.position = "none",
+        axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank(), 
+        panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        panel.background = element_blank())
+  
+```
+
+
+However, even here it's still hard to read each individual datapoint. What if I made this an interactive graph? 
+
+```{r, echo = FALSE}
+interactive <- ggplot(births_month_year, aes(x = graph_date, y = num_births, color = graph_year)) +
+ geom_pointrange(aes(ymin = 290000, ymax = num_births)) +
+ guides(color = FALSE) +
+ scale_y_continuous(labels = unit_format(unit = "K", scale = 1e-3)) + 
+  labs(x = "", y = "", 
+       title = "Number of Births", 
+       subtitle = "2000 to 2014") +
+  theme(legend.position = "none",
+        axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank(), 
+        panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        panel.background = element_blank())
+
+ggplotly(interactive)
+  
+```
+
+
+***
+#### Births by Month
+
+Finally, I want to look at just the number of births by month excluding what year it is. This will allow me to see what the most popular birth month is.
+
+To create my subsetted data, I will use the group_by and summarize functions again to gather the overall sum of births during this 15 year period by month. 
+```{r, echo = FALSE}
+births_month <- births_df %>% 
+  group_by(month) %>% 
+  summarize(num_births=sum(births))
+
+births_month[order(-births_month$num_births),]
+```
+
+Here we can see that the largest number of births during this 15 year timeframe take place in August. 
+
+Although in the table view I sorted by month, graphically I think it makes more sense to leave the months in normal order and let the columns in graph display the number of births: 
+
+```{r, echo = FALSE}
+ggplot(births_month, aes(x = month, y = num_births)) +
+  geom_col()
+```
+
+For this graph, I will remove the axis titles as well as adjust the vertical values to better depict the number of births. I will also add a title to tell the audience what the graph depicts and a coloring palette that will favor a higher number of births.  
+```{r}
+ggplot(births_month, aes(x = month, 
+                         y = num_births, 
+                         fill = num_births)) +
+  geom_bar(stat = "identity") +  
+  scale_y_continuous(labels = unit_format(unit = "M", scale = 1e-6)) + 
+  coord_flip() +
+  labs(x = "", y = "", 
+       title = "Number of Births by Month") + 
+  theme(legend.position = "none", 
+        panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        panel.background = element_blank())
+```
+
+In the above graph, we can see that August has the highest number of births for all months during this 15 year time period, then followed by July and then September. The idea pops into my head that these three months are right next to each other. This particular season has a high number of births, why? 
+
+
+***
+### Further Exploration
+
+Looking at what the most popular birth month is made me want to look at what the most popular conception month is. Using the average gestation period of 266 days, I can mutate our initial dataframe and obtain an _uncertain_ (strictly using for exploration purposes) conception date and month. 
+
+By obtaining these two new variables, I can build a similar graph as the scatterplot I built for births by month and year. This new graph would allow me to further explore what variables lead to a higher number of conceptions over time. 
+
+To build this new dataset, I will use mutate to create a conception date which is just the date 266 days prior to the birth date provided in the original dataset. From this created conception date, I will again use mutate function to obtain just the non-abbreviated year. 
+```{r, echo = FALSE}
+conception <- births_df %>% 
+  mutate(conception_date=date-266) %>% 
+  mutate(conception_month=months(conception_date)) %>% 
+  mutate(conception_year=year(conception_date))
+
+conception
+```
+
+Before building that final graph, to verify that our created conception date is somewhat accurate, I wanted to look at the months with the highest conception rates. To do so, I will summarize the data by month only. 
+
+Although there are a lot of factors that come into play between conception and birth and this is not an accurate depiction of the number of conceptions per date, it's interesting to look at what the most popular conception timeframe might actually be overall. 
+```{r, echo = FALSE}
+conception_month <- conception %>% 
+  group_by(conception_month) %>% 
+  summarize(num_conceptions=sum(births))
+
+conception_month[order(-conception_month$num_conceptions),]
+```
+
+Here we can see that as expected, given the most popular birth month of August, the most popular conception month is December, 9 months prior. 
+
+```{r, echo=FALSE}
+conceptions_month_year <- conception %>% 
+  group_by(conception_year, conception_month) %>% 
+  summarize(num_conceptions=sum(births)) %>% 
+  mutate(graph_date = paste(conception_month, conception_year, sep = " ")) %>% 
+  mutate(graph_year = as.character(conception_year))
+
+conceptions_month_year$graph_date <- factor(conceptions_month_year$graph_date, levels = conceptions_month_year$graph_date)
+```
+
+
+Now I feel more comfortable building my scatterplot. 
+```{r, echo = FALSE, warning = FALSE}
+ggplot(conceptions_month_year, aes(x = graph_date, y = num_conceptions)) + 
+  geom_point(aes(color = conceptions_month_year$graph_year, alpha = 0.3)) +
+  scale_y_continuous(labels = unit_format(unit = "K", scale = 1e-3), limits = c(300000, 400000)) +
+  labs(x = "", y = "", 
+       title = "Number of Conceptions", 
+       subtitle = "2000 to 2014") +
+  theme(legend.position = "none",
+        axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank(), 
+        panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        panel.background = element_blank())
+```
+
+This graph is not without it's flaws. Although the colors in this graph show us the different points for each of the 15 years included in this dataset, an x-axis tick marking system would serve us extra. I could not figure out how to adjust the x-axis to display just the years given the summarized dataset. (Any tips would be greatly appreciated).
+
+***
+### Conclusions
+
+In conclusion, from my initial exploratoy graphs to my enhanced graphs, you can see that in this fifteen year period, 2007 had the highest number of births. As well, you can see that August is the month of the year with the most births overall, which in turn tells us that December, October, November and January are the months with the highest  number of conceptions. 
+
+From the time alone, it seems as if the holidays at the end of the year contributes to a higher number of conceptions. It'd be interesting to look further into this in the future as well as what else contributes to the higher number of conceptions at a certain time of year, and therefore higher number of births later on. 
+
+<br><br><br>
