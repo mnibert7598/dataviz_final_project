@@ -76,11 +76,11 @@ Some improvements that could be made would be inputting a range selector like fr
 In this project, I explored ... _[short description of your revised project goes here]_
 
 **Maximum Temperatures by Month (counts):** 
-<img src="https://github.com/reisanar/figs/raw/master/jackie_jessie_marion.png" width="80%" height="80%">
+<img src="https://github.com/mnibert7598/dataviz_final_project/blob/main/figures/max_temp_month_03.png" width="80%" height="80%">
 
 
 **Maximum Temperatures by Month Density Ridges:** 
-<img src="https://github.com/reisanar/figs/raw/master/jackie_jessie_marion.png" width="80%" height="80%">
+<img src="https://github.com/mnibert7598/dataviz_final_project/blob/main/figures/geom_ridges_03.png" width="80%" height="80%">
 
 
 ## Moving Forward
