@@ -16,15 +16,7 @@ In the `project_01/` folder you can find my full report exploring U.S. Births fr
 
 <br>
 
-**First Visualization: Births per Year** 
-
-Below we have my first created visualization that shows us the number of births in millions for each year in the dataset. 
-
-Given the shape of the graph as well as the coloring applied we can see that there is a spike in births in 2007 followed by a lower number of births in the latter half of the dataset. 
-
-<img src="https://github.com/mnibert7598/dataviz_final_project/blob/main/figures/birthsbyyear_01.png" width="70%" height="70%">
-
-**Second Visualization: Births per Month and Year**
+**Births per Month and Year**
 
 Originally, I had created a scatterplot of the number of births for each month of each year over the 15 year period. I had colored the scatterplot so each year had a different color. Overall, you could see the same arch that we see in my first visualization. However, my professor suggested that it was hard to see the color differences in the scatterplot for each year and countered that I provide a lollipop graph instead. My first attempt at a lollipop graph yielded mixed results. I could now definitively see the different years, but the pattern was lost as the stick of each lollipop was so tall and there were so many of them. 
 
@@ -45,23 +37,8 @@ While working on this second mini project, I further practiced how to clean data
 
 Find the code and report in the `project_02/` folder.
 
-**First Visualization: High Temperatures in Atlanta** 
 
-First graph I wanted to look at was the high temperatures over the entire year. Here, we can see they shape a nice bell-like curve with the highest of temperatures in the middle of the year during the summer months. 
-
-<img src="https://github.com/mnibert7598/dataviz_final_project/blob/main/figures/high_temp_02.PNG" width="70%" height="70%">
-
-
-**Second Visualization: Precipitation in Atlanta** 
-
-The next visualization I wanted to produce was a basic histogram plot to look at the precipitation over Atlanta for the year of 2019. 
-
-<img src="https://github.com/mnibert7598/dataviz_final_project/blob/main/figures/precip_02.PNG" width="70%" height="70%">
-
-In this graph, we can see that the month with the highest amount of precipitation is February and the lowest month is September for Atlanta in 2019.
-
-
-**Third Visualization: Precipitation & Temperature in Atlanta** 
+**Precipitation & Temperature in Atlanta** 
 
 Although I made several graphs beforehand depicting this same information, one just for temperature, one for precipitation by month, this last visualization would be the one that I would show to an audience. It contains all of the information I was trying to relay. 
 
@@ -74,10 +51,6 @@ Some improvements that could be made would be inputting a range selector like fr
 ## Project 03: Recreating Graphics for Tampa Weather
 
 In this mini project I explored recreating multiple types of graphs that could be used to express the same variable to an audience. All different types of graphs than I knew prior to use, much better than what I used in my mini project 2. 
-
-
-**Maximum Temperatures by Month (counts):** 
-<img src="https://github.com/mnibert7598/dataviz_final_project/blob/main/figures/max_temp_month_03.png" width="80%" height="80%">
 
 
 **Maximum Temperatures by Month Density Ridges:** 
